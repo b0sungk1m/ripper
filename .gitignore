@@ -1,0 +1,140 @@
+# 🌙 Moon Dev's .gitignore
+# Keep your secrets safe! 🔒
+
+# API Keys and Sensitive Data
+.env
+dontshare.py
+**/dontshare.py
+secrets.json
+config.private.py
+MYNOTES.md
+temp_data/
+
+# Shell files
+.zshrc
+**/.zshrc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+.env/
+.venv/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs and Databases
+*.log
+*.sqlite
+*.db
+
+# Moon Dev Trading Specific
+dont_overtrade.txt
+ohlcv_data/
+**/ohlcv_data/
+trading_history/
+**/trading_history/
+
+# Moon Dev's Private Strategies
+src/strategies/custom/private_*.py
+src/strategies/custom/secret_*.py
+src/strategies/custom/dev_*.py
+
+# Keep template files
+!src/strategies/custom/README.md
+!src/strategies/custom/__init__.py
+!src/strategies/custom/.gitkeep
+
+/.gitattributes
+.gitattributes
+moon-dev-ai-agents-for-trading/src/dev
+src/dev
+src/agents/api_data
+cookies.json
+Procfile
+src/data/agent_memory
+src/data/private_data
+src/data/sentiment
+src/data/focus_history.csv
+src/data/discovered_tokens.csv
+src/data/ai_analysis.csv
+
+# add this to gitignor /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data
+
+/src/data/ai_analysis_buys.csv
+src/data/ai_analysis_buys.csv
+src/data/chat_agent/knowledge_base.txt
+src/data/code_runner
+
+src/data/videos/raw_vids/howtouseo3fortrading.mov
+src/data/videos/finished_clips
+src/audio
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data/agent_memory
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data/sentiment
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data/focus_history.csv
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data/private_data
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/.replit
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/.replit
+*.zshrc
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/.zshrc
+src/data/solana_agent
+src/data/sniper_agent
+src/data/tx_agent
+# /Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data/videos/raw_clips
+
+# Project specific
+src/data/chat_agent/chat_history.csv
+src/data/chat_agent/config.json
+
+src/data/videos/raw_streams/EaMh2ILYJS4.mov
+*.env
+.env.*
+!.env_example
+.cursorrules
+
+# Moon Dev specific
+**/chat_history*.csv
+**/chat_*.json
+**/knowledge_base*.txt
+
+# Add prompt log to gitignore
+src/data/chat_agent/prompt_log.txt
+
+# Also add the directory in case it doesn't exist yet
+src/data/chat_agent/*.txt
+src/data/code_runner/screenshotssrc/frontend/
+# Moon Dev's custom ignores 🌙
+src/data/videos/finished_clips/
+src/data/videos/temp/
+src/data/phone_agent/unknown_questions.csv
+src/data/videos/raw_vids/*.mov
+src/data/videos/*.mp4
+src/data/videos/youtube_materials/**/*.mp3

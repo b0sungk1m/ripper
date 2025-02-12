@@ -1,0 +1,24 @@
+STRATEGY_NAME: AtrMeanReversion
+
+STRATEGY_DETAILS:
+
+This strategy focuses on mean reversion, using Average True Range (ATR) to identify overextended instruments and Keltner Channels as a tool for detecting potential mean reversion trades. The primary approach is to find an overextended market based on ATR and then look for a reversal setup within the Keltner Channels.
+
+1. Key strategy components:
+   - Average True Range (ATR) to identify overextended markets.
+   - Keltner Channels for detecting potential mean reversion trades.
+   - 2B price pattern as a reversal setup.
+
+2. Entry/exit rules:
+   - Enter a short position when price breaks the high of a reversal candlestick within the Keltner Channel, placing a protective stop loss just beyond the high of the reversal candle.
+   - Exit the position when price continues in the trend direction, moving beyond the protective stop loss.
+
+3. Risk management:
+   - Consider using half of your normal size for these trades since there might be another poke above or below as different time frames react to the event.
+   - Expect the first position to be a loss; it isn't always a loss, but it can be.
+
+4. Required indicators:
+   - ATR
+   - Keltner Channels
+
+The AtrMeanReversion strategy relies on the understanding of two forces in the market: momentum and mean reversion. The trader should be able to identify these forces and scan for events that could offer good gains. By studying hundreds of charts and defining a plan based on the learned similarities between stalled and successful setups, traders can improve their performance.
