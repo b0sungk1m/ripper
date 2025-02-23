@@ -21,6 +21,8 @@ MONITORED_TOKENS = [
     # 'Df6yfrKC8kZE3KNkrHERKzAetSxbrWeniQfyJY4Jpump',    # 😎 CHILL GUY
     # 'ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY',    # 🌙 MOODENG
     # 'EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm',    # 🐕 WIF
+    '4xgnbGgNnYF3Yd82ek5VsD6Ms6ghsCX8PLkRMrX6pump',     # LOOT
+    '6LYqVzVfqpjVT2dEJqpJG7C4eBNoy3tTTk1u7a4Mpump',     # RELAX
 ]
 
 # Moon Dev's Token Trading List 🚀

@@ -39,7 +39,7 @@ os.makedirs('temp_data', exist_ok=True)
 
 def cleanup_temp_data():
     if os.path.exists('temp_data'):
-        print("🧹 Moon Dev cleaning up temporary data...")
+        print("🧹 Ripper cleaning up temporary data...")
         shutil.rmtree('temp_data')
 
 atexit.register(cleanup_temp_data)
@@ -397,7 +397,7 @@ def get_data(address, days_back_4_data, timeframe):
 
         return df
     else:
-        print(f"❌ MoonDev Error: Failed to fetch data for address {address}. Status code: {response.status_code}")
+        print(f"❌ Ripper Error: Failed to fetch data for address {address}. Status code: {response.status_code}")
         if response.status_code == 401:
             print("🔑 Check your BIRDEYE_API_KEY in .env file!")
         return pd.DataFrame()

@@ -31,5 +31,9 @@ streamlit>=1.32.0  # Moon Dev's web UI magic ✨
 flask>=3.0.2  # Moon Dev's web server for Twilio 🌐
 twilio>=8.13.0  # Moon Dev's phone integration 📞
 python-dotenv>=1.0.0  # Moon Dev's environment management 🔐
-playsound==1.3.0
+APScheduler>=3.11.0
+pytest>=8.3.4
+panel>=1.6.1
+
+# playsound==1.3.0
 # Add any other dependencies your agents need

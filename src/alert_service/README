@@ -1,0 +1,9 @@
+# Ripper's Trading Dashboard
+
+Simple dashboard to display alerts and other information from the Ripper's Trading System.
+
+## Running the DB and backend alert API
+```python ./src/alert_service/backend/app.py```
+
+## Running the Dashboard
+```panel serve frontend/dashboard.py --show```

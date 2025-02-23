@@ -1,6 +1,6 @@
 """
-🌙 Moon Dev's AI Trading System
-Main entry point for running trading agents
+Ripper's AI Trading System
+Main entry point for running Ripper server
 """
 
 import os
@@ -16,66 +16,31 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_root)
 
 # Import agents
-from src.agents.trading_agent import TradingAgent
-from src.agents.risk_agent import RiskAgent
-from src.agents.strategy_agent import StrategyAgent
-from src.agents.copybot_agent import CopyBotAgent
-from src.agents.sentiment_agent import SentimentAgent
+from src.ripgents.strategy_ripgent import StrategyRipgent
 
 # Load environment variables
 load_dotenv()
 
 # Agent Configuration
 ACTIVE_AGENTS = {
-    'risk': False,      # Risk management agent
-    'trading': False,   # LLM trading agent
-    'strategy': False,  # Strategy-based trading agent
-    'copybot': False,   # CopyBot agent
-    'sentiment': False, # Run sentiment_agent.py directly instead
-    # whale_agent is run from whale_agent.py
-    # Add more agents here as we build them:
-    # 'portfolio': False,  # Future portfolio optimization agent
+    'strategy': True,  # Strategy-based trading agent
 }
 
 def run_agents():
     """Run all active agents in sequence"""
     try:
         # Initialize active agents
-        trading_agent = TradingAgent() if ACTIVE_AGENTS['trading'] else None
-        risk_agent = RiskAgent() if ACTIVE_AGENTS['risk'] else None
-        strategy_agent = StrategyAgent() if ACTIVE_AGENTS['strategy'] else None
-        copybot_agent = CopyBotAgent() if ACTIVE_AGENTS['copybot'] else None
-        sentiment_agent = SentimentAgent() if ACTIVE_AGENTS['sentiment'] else None
+        strategy_ripgent = StrategyRipgent() if ACTIVE_AGENTS['strategy'] else None
 
         while True:
             try:
-                # Run Risk Management
-                if risk_agent:
-                    cprint("\n🛡️ Running Risk Management...", "cyan")
-                    risk_agent.run()
-
-                # Run Trading Analysis
-                if trading_agent:
-                    cprint("\n🤖 Running Trading Analysis...", "cyan")
-                    trading_agent.run()
-
                 # Run Strategy Analysis
-                if strategy_agent:
+                if strategy_ripgent:
                     cprint("\n📊 Running Strategy Analysis...", "cyan")
                     for token in MONITORED_TOKENS:
                         if token not in EXCLUDED_TOKENS:  # Skip USDC and other excluded tokens
                             cprint(f"\n🔍 Analyzing {token}...", "cyan")
-                            strategy_agent.get_signals(token)
-
-                # Run CopyBot Analysis
-                if copybot_agent:
-                    cprint("\n🤖 Running CopyBot Portfolio Analysis...", "cyan")
-                    copybot_agent.run_analysis_cycle()
-
-                # Run Sentiment Analysis
-                if sentiment_agent:
-                    cprint("\n🎭 Running Sentiment Analysis...", "cyan")
-                    sentiment_agent.run()
+                            strategy_ripgent.get_signals(token)
 
                 # Sleep until next cycle
                 next_run = datetime.now() + timedelta(minutes=SLEEP_BETWEEN_RUNS_MINUTES)
@@ -94,7 +59,7 @@ def run_agents():
         raise
 
 if __name__ == "__main__":
-    cprint("\n🌙 Moon Dev AI Agent Trading System Starting...", "white", "on_blue")
+    cprint("\nRipper Agent Trading System Starting...", "white", "on_blue")
     cprint("\n📊 Active Agents:", "white", "on_blue")
     for agent, active in ACTIVE_AGENTS.items():
         status = "✅ ON" if active else "❌ OFF"

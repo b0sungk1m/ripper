@@ -1,12 +1,11 @@
 """
-🌙 Moon Dev's Strategy Agent
+Ripper Strategy Agent
 Handles all strategy-based trading decisions
 """
 
 from src.config import *
 import json
 from termcolor import cprint
-import anthropic
 import os
 import importlib
 import inspect
@@ -15,7 +14,7 @@ from src import nice_funcs as n
 
 # 🎯 Strategy Evaluation Prompt
 STRATEGY_EVAL_PROMPT = """
-You are Moon Dev's Strategy Validation Assistant 🌙
+You are Ripper's Strategy Validation Assistant 🌙
 
 Analyze the following strategy signals and validate their recommendations:
 
@@ -46,20 +45,21 @@ Remember:
 - Better to reject a signal than risk a bad trade
 """
 
-class StrategyAgent:
+class StrategyRipgent:
     def __init__(self):
         """Initialize the Strategy Agent"""
         self.enabled_strategies = []
-        self.client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_KEY"))
+        # self.client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_KEY"))
         
         if ENABLE_STRATEGIES:
             try:
+                print("Attempting to load src.strategies.custom.macd_cross_strategy")
                 # Import strategies directly
-                from src.strategies.custom.example_strategy import ExampleStrategy
+                from src.strategies.custom.macd_cross_strategy import MACDStrategy
                 
                 # Initialize strategies
                 self.enabled_strategies.extend([
-                    ExampleStrategy()
+                    MACDStrategy()
                 ])
                 
                 print(f"✅ Loaded {len(self.enabled_strategies)} strategies!")
@@ -71,7 +71,7 @@ class StrategyAgent:
         else:
             print("🤖 Strategy Agent is disabled in config.py")
         
-        print(f"🤖 Moon Dev's Strategy Agent initialized with {len(self.enabled_strategies)} strategies!")
+        print(f"🤖 Ripper's Strategy Agent initialized with {len(self.enabled_strategies)} strategies!")
 
     def evaluate_signals(self, signals, market_data):
         """Have LLM evaluate strategy signals"""
@@ -174,11 +174,11 @@ class StrategyAgent:
                 for signal in approved_signals:
                     print(f"  • {signal['strategy_name']}: {signal['direction']} ({signal['signal']})")
                 
-                # 6. Execute approved signals
-                print("\n💫 Executing approved strategy signals...")
-                self.execute_strategy_signals(approved_signals)
-            else:
-                print(f"\n⚠️ No signals approved by LLM for {token}")
+            #     # 6. Execute approved signals
+            #     print("\n💫 Executing approved strategy signals...")
+            #     self.execute_strategy_signals(approved_signals)
+            # else:
+            #     print(f"\n⚠️ No signals approved by LLM for {token}")
             
             return approved_signals
             
