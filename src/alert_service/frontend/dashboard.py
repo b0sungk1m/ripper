@@ -172,8 +172,43 @@ def shutdown_handler(signum, frame):
     loop.create_task(websocket_shutdown())
     sys.exit(0)
 
-pn.extension('tabulator', sizing_mode="stretch_width")
+def row_click_callback(event):
+    # Use the row index provided by the event:
+    row_index = event.row
+    # Get the row data from the global DataFrame:
+    row_data = local_df.iloc[row_index]
+    if row_data is None or "address" not in row_data:
+        return
+    address = row_data["address"]
+    embed_html = f"""
+    <style>
+      #dexscreener-embed {{
+        position: relative;
+        width: 100%;
+        padding-bottom: 125%;
+      }}
+      @media(min-width:1400px) {{
+        #dexscreener-embed {{
+          padding-bottom: 65%;
+        }}
+      }}
+      #dexscreener-embed iframe {{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border: 0;
+      }}
+    </style>
+    <div id="dexscreener-embed">
+      <iframe src="https://dexscreener.com/solana/{address}?embed=1&loadChartSettings=1&trades=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=15"></iframe>
+    </div>
+    """
+    embed_pane.object = embed_html
+    print(f"Embed updated for address: {address}")
 
+pn.extension('tabulator', sizing_mode="stretch_width")
 # REST endpoint URL for full data fetch; replace <YOUR_VM_PUBLIC_IP> with the actual IP.
 REST_ALERTS_URL = os.environ.get("ALERTS_URL", "http://172.184.170.40:3000/alerts")
 # Initial full data load.
@@ -232,6 +267,8 @@ data_table = pn.widgets.Tabulator(
 
 symbol_filter = pn.widgets.TextInput(name="Symbol Filter", placeholder="Enter symbol substring")
 active_filter = pn.widgets.Checkbox(name="Active Only", value=True)
+embed_pane = pn.pane.HTML("", sizing_mode="stretch_width", height=400)
+data_table.on_click(row_click_callback)
 
 symbol_filter.param.watch(filter_data, 'value')
 active_filter.param.watch(filter_data, 'value')
@@ -264,6 +301,8 @@ layout = pn.Column(
     header,
     controls,
     data_table,
+    pn.Spacer(height=20),
+    embed_pane,
     sizing_mode="stretch_both"
 )
 template.main.append(layout)
