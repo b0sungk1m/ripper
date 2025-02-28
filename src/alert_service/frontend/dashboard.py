@@ -1,153 +1,279 @@
+# dashboard.py
 import panel as pn
 import pandas as pd
-from sqlalchemy import create_engine
-from src.alert_service.backend.database.db import DATABASE_URL
-from bokeh.models.widgets.tables import NumberFormatter, BooleanFormatter
-
-# Enable Panel extensions with Tabulator support
-pn.extension('tabulator', sizing_mode="stretch_width")
-
-# Create a SQLAlchemy engine for the SQLite database.
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-
-def format_relative(dt_val):
-    """Return a string like 'X min' or 'X hr Y min' for the difference between now and dt_val."""
-    if pd.isnull(dt_val):
-        return None
-    # Get current time as a tz-aware UTC timestamp
-    now = pd.Timestamp.now(tz='UTC')
-    
-    # Ensure dt_val is tz-aware in UTC
-    if dt_val.tzinfo is None:
-        dt_val = dt_val.tz_localize('UTC')
-    else:
-        dt_val = dt_val.tz_convert('UTC')
-    
-    diff = now - dt_val
-    seconds = diff.total_seconds()
-    if seconds < 3600:
-        minutes = int(round(seconds / 60))
-        return f"{minutes} min"
-    else:
-        hours = int(seconds // 3600)
-        minutes = int((seconds % 3600) // 60)
-        return f"{hours} hr {minutes} min"
+import numpy as np
+import requests
+import os
+from src.alert_service.frontend.websocket_client import set_update_callback, run_ws_client_in_background, websocket_shutdown
+import signal
+import sys
+import asyncio
 
 def load_data():
     """
-    Query the SQLite database and return a DataFrame with alert entries.
-    Converts datetime columns into a relative string format.
+    Fetch all alerts from the REST API endpoint on the VM and return a DataFrame.
     """
-    query = """
-    SELECT 
-      address,
-      symbol,
-      first_alert_price,
-      current_price,
-      purchase_size,
-      alert_count,
-      last_alert_time,
-      last_update_time,
-      first_alert_time,
-      active_watchlist,
-      sm_buy_count,
-      dexscreener_link,
-      twitter_sentiment,
-      rug_bundle_check,
-      macd_line,
-      macd_short,
-      macd_long,
-      volume_5min,
-      volume_1hr,
-      summary,
-      twitter,
-      website,
-      channel_HighConviction,
-      channel_EarlyAlpha,
-      channel_5xSMWallet,
-      channel_SmartFollowers,
-      channel_KimchiTest
-    FROM alert_entries
-    """
-    with engine.connect() as conn:
-        df = pd.read_sql(query, conn)
+    try:
+        response = requests.get(REST_ALERTS_URL)
+        response.raise_for_status()
+        data = response.json()
+        df = pd.DataFrame(data)
+    except Exception as e:
+        print("Error fetching alerts from REST endpoint:", e)
+        df = pd.DataFrame()
     
-    # Process datetime columns: convert to datetime and then format as relative differences.
-    datetime_cols = ['last_alert_time', 'last_update_time', 'first_alert_time']
-    for col in datetime_cols:
+    # Convert timestamp columns (stored as strings) to datetime and then compute the HH:MM difference.
+    timestamp_cols = ['first_alert_time', 'last_alert_time', 'last_update_time']
+    for col in timestamp_cols:
         if col in df.columns:
-            df[col] = pd.to_datetime(df[col], errors='coerce').apply(format_relative)
+            # Convert the column to datetime in UTC.
+            df[col] = pd.to_datetime(df[col], utc=True, errors='coerce')
+
+    df = alter_data(df)
+    # reorder and rename columns
+    col_order = ["alert_count",
+                 "symbol",
+                 "first_alert_time_ago",
+                 "last_alert_time_ago",
+                 "first_alert_price",
+                 "current_price",
+                 "ath_multiplier",
+                 "curr_multiplier",
+                 "avg_purchase_size",
+                 "last_update_time_ago"
+    ]
+    df = reorder_and_rename_df(df, col_order)
     return df
 
-# Load initial data
-df = load_data()
+def refresh_data(event):
+    global local_df
+    local_df = load_data()          # Reload full data from REST
+    data_table.value = local_df.copy()  # Update the table with a fresh copy
+    print("Data refreshed.")
 
-# Create interactive filter widgets
-symbol_filter = pn.widgets.TextInput(name="Symbol Filter", placeholder="Enter symbol substring")
-active_filter = pn.widgets.Checkbox(name="Active Only", value=True)
+def reorder_and_rename_df(df, first_columns, rename_map=None):
+    """
+    Reorder the DataFrame so that the columns in `first_columns` appear first in the specified order,
+    and all other columns follow in their original order.
+    
+    Optionally, rename columns using rename_map, a dict mapping original column names to new names.
+    
+    Parameters:
+      df: the original DataFrame.
+      first_columns: list of column names that should come first.
+      rename_map: dictionary mapping column names to new names (optional).
+    
+    Returns:
+      A new DataFrame with reordered (and optionally renamed) columns.
+    """
+    # Get the rest of the columns in their original order.
+    remaining_columns = [col for col in df.columns if col not in first_columns]
+    # New order is the desired columns first, then the remaining.
+    new_order = first_columns + remaining_columns
+    df = df[new_order]
+    if rename_map:
+        df = df.rename(columns=rename_map)
+    return df
 
-# Create a Tabulator widget to display the DataFrame.
-# Remove the top-level "editable" argument to avoid the error,
-# and rely on table_options (if supported) or default read-only behavior.
+def alter_data(df):
+    if 'address' in df.columns:
+        df['dexscreener_link'] = df['address'].apply(
+            lambda addr: f"https://dexscreener.com/solana/{addr}"
+        )
+    # Define the timestamp columns that should be converted.
+    timestamp_cols = ['first_alert_time', 'last_alert_time', 'last_update_time']
+    for col in timestamp_cols:
+        if col in df.columns:
+            # Create a new column with the relative "ago" value.
+            df[f'{col}_ago'] = df[col].apply(format_timedelta)
+    
+    df['avg_purchase_size'] = np.where(df['alert_count'] == 0, 0, df['purchase_size'] / df['alert_count'])
+    return df
 
+
+def filter_data(event=None):
+    global local_df
+    local_df = alter_data(local_df)
+    if symbol_filter.value.strip():
+        local_df = local_df[local_df['symbol'].str.contains(symbol_filter.value, case=False, na=False)]
+    if active_filter.value:
+        local_df = local_df[local_df['active_watchlist'] == True]
+    local_df = local_df.copy()
+    data_table.value = local_df
+
+def timestamp_update():
+    global local_df
+    timestamp_cols = ['first_alert_time', 'last_alert_time', 'last_update_time']
+    for col in timestamp_cols:
+        if col in local_df.columns:
+            # Create a new column with the relative "ago" value.
+            local_df[f'{col}_ago'] = local_df[col].apply(format_timedelta)
+
+def timestamp_callback(event=None):
+    timestamp_update()
+
+def update_callback(payload):
+    """
+    This callback is called when the WS client receives a delta update.
+    It merges the delta into the local_df DataFrame and refreshes the data_table.
+    """
+    timestampcols = ['first_alert_time', 'last_alert_time', 'last_update_time']
+    global local_df
+    address = payload.get("address")
+    if not address:
+        return
+
+    matches = local_df.index[local_df['address'] == address].tolist()
+    if not matches:
+        print(f"Address {address} not in local_df; performing full refresh.")
+        local_df = load_data()
+    else:
+        idx = matches[0]
+        for key, val in payload.items():
+            if key != "address" and key in local_df.columns:
+                if key in timestampcols:
+                    # Convert timestamps to datetime objects for easier comparison.
+                    val = format_timestamp_from_seconds(val)
+                print(f"Updating {key} for address {address} with value {val}")
+                local_df.at[idx, key] = val
+            else:
+                print(f"Skipping {key} for address {address} with value {val}")
+    # Assign a fresh copy so Panel detects the change.
+    timestamp_update()
+    data_table.value = local_df.copy()
+    print(f"Updated row for address {address} with delta: {payload}")
+
+def format_timestamp_from_seconds(seconds):
+    """
+    Assumes seconds is a pandas datetime second past epoch in UTC.
+    """
+    # Convert Unix timestamp in seconds to a UTC datetime string "YYYY-MM-DD HH:MM:SS"
+    dt_obj = pd.to_datetime(seconds, unit='s', utc=True)
+    return dt_obj
+
+def format_timedelta(dt_val):
+    """
+    Calculate the difference between now (UTC) and the datetime value (dt_val)
+    and return a string in "HH:MM" format.
+    Assumes dt_val is a pandas datetime object in UTC.
+    """
+    if pd.isnull(dt_val):
+        return None
+    now = pd.Timestamp.now(tz='UTC')
+    diff = now - dt_val
+    total_minutes = int(diff.total_seconds() // 60)
+    hours = total_minutes // 60
+    minutes = total_minutes % 60
+    return f"{hours:02d}:{minutes:02d}"
+
+def shutdown_handler(signum, frame):
+    print("Shutting down dashboard gracefully...")
+    loop = asyncio.get_event_loop()
+    loop.create_task(websocket_shutdown())
+    sys.exit(0)
+
+pn.extension('tabulator', sizing_mode="stretch_width")
+
+# REST endpoint URL for full data fetch; replace <YOUR_VM_PUBLIC_IP> with the actual IP.
+REST_ALERTS_URL = os.environ.get("ALERTS_URL", "http://172.184.170.40:3000/alerts")
+# Initial full data load.
+local_df = load_data()
 
 bokeh_formatters = {
-    'active': {'type': 'tickCross'},
-    'dexscreener_link': {'type': 'link', 'target': '_blank', 'label': 'link'},
+    'active_watchlist': {'type': 'tickCross'},
+    # Use the link formatter for the "symbol" column:
+    'symbol': {
+         'type': 'link',
+         'target': '_blank',
+         'labelField': 'symbol',       # Display the symbol text.
+         'urlField': 'dexscreener_link'  # Use the URL from the dexscreener_link column.
+    },
+    'alert_count': {
+        'type': 'custom',
+        'formatter': """
+          function(cell, formatterParams, onRendered) {
+              var value = cell.getValue();
+              if (value === 0) {
+                  return "🌱";
+              } else {
+                  return "🔁 (" + value + ")";
+              }
+          }
+        """,
+        'sorter': 'number'
+    },
 }
 
 data_table = pn.widgets.Tabulator(
-    df, 
+    local_df, 
     pagination='local', 
     page_size=20,
-    sizing_mode="stretch_width",
+    layout='fit_data',
+    text_align='center',
     show_index=False,
-    formatters=bokeh_formatters,
     disabled=True,
+    hidden_columns=['address', 'dexscreener_link', 'channel_HighConviction', 'channel_EarlyAlpha', 'channel_5xSMWallet', 'channel_SmartFollowers', 'channel_KimchiTest',
+                    'isMoni', 'isNansen', 'first_alert_time', 'last_alert_time', 'last_update_time'],
+    titles={
+        "alert_count": "Count",
+        "symbol": "Symbol",
+        "first_alert_time_ago": "First Alert",
+        "last_alert_time_ago": "Last Alert",
+        "first_alert_price": "First Price",
+        "current_price": "Current Price",
+        "ath_multiplier": "ATH",
+        "curr_multiplier": "CURR",
+        "avg_purchase_size": "Buy Size",
+        "last_update_time_ago": "Last Update",
+        "active_watchlist": "Active"
+    },
+    formatters=bokeh_formatters
 )
 
-def filter_data(event=None):
-    """
-    Reload data, apply interactive filters, and update the table.
-    """
-    df = load_data()
-    if symbol_filter.value:
-        df = df[df['symbol'].str.contains(symbol_filter.value, case=False, na=False)]
-    if active_filter.value:
-        df = df[df['active'] == True]
-    data_table.value = df
+symbol_filter = pn.widgets.TextInput(name="Symbol Filter", placeholder="Enter symbol substring")
+active_filter = pn.widgets.Checkbox(name="Active Only", value=True)
 
-# Set up widget watchers for interactive filtering
 symbol_filter.param.watch(filter_data, 'value')
 active_filter.param.watch(filter_data, 'value')
 
-# Refresh data periodically (every 10 seconds)
+# callback to filter data but we dont need this right now
 pn.state.add_periodic_callback(filter_data, period=10000)
+pn.state.add_periodic_callback(timestamp_callback, period=60000)
 
-# Use a Panel template for a polished layout.
 template = pn.template.FastListTemplate(
     title="Ripper",
-    header_background="#808000",  # Olive green header
+    header_background="#808000",
     theme="dark",
-    accent="#90ee90",             # Bright green accent
+    accent="#90ee90",
     main_max_width="1200px",
     sidebar=[]
 )
 
-# Create a header using an HTML pane for inline styling
-header = pn.pane.HTML(
-    "<h1 style='text-align: center; margin: 20px 0;'>Alert Dashboard</h1>",
+header = pn.pane.HTML("<h1 style='text-align: center; margin: 20px 0;'>Alert Dashboard</h1>", sizing_mode="stretch_width")
+# Use an HSpacer to push the button to the right.
+refresh_button = pn.widgets.Button(name="Refresh Data", button_type="primary")
+refresh_button.on_click(refresh_data)
+controls = pn.Row(
+    symbol_filter,
+    active_filter,
+    pn.layout.HSpacer(),  # This spacer will expand and push the refresh button to the right.
+    refresh_button,
     sizing_mode="stretch_width"
 )
-
-# Compose the layout
 layout = pn.Column(
     header,
-    pn.Row(symbol_filter, active_filter, sizing_mode="stretch_width", margin=10),
+    controls,
     data_table,
     sizing_mode="stretch_both"
 )
-
-# Add the layout to the template and serve it
 template.main.append(layout)
 template.servable(title="Ripper")
+# Register the shutdown handler for SIGINT (Ctrl+C)
+signal.signal(signal.SIGINT, shutdown_handler)
+
+
+# Register the update callback with the WebSocket client.
+set_update_callback(update_callback)
+
+# Start the WS client in the background.
+run_ws_client_in_background()

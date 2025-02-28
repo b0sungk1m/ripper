@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from .models import Base
 from termcolor import cprint
 
-DATABASE_URL = "sqlite:///./alerts.db"  # SQLite database file
+DATABASE_URL = "sqlite:////Users/bosungkim/bosungkim/src/github/shared/data/alerts.db"  # SQLite database file
 
 # The connect_args are needed for SQLite
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
