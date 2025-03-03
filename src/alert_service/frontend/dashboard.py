@@ -253,20 +253,6 @@ bokeh_formatters = {
          'labelField': 'symbol',
          'urlField': 'dexscreener_link'
     },
-    'alert_count': {
-        'type': 'custom',
-        'formatter': """
-          function(cell, formatterParams, onRendered) {
-              var value = cell.getValue();
-              if (value === 0) {
-                  return "🌱";
-              } else {
-                  return "🔁 (" + value + ")";
-              }
-          }
-        """,
-        'sorter': 'number'
-    },
 }
 
 data_table = pn.widgets.Tabulator(
@@ -351,7 +337,7 @@ dashboard_tabs = pn.Tabs(
 )
 
 template = pn.template.FastGridTemplate(
-    title="Ripper",
+    title="Ripper (volume?, MACD?, Support?, AI/Gov/News/On-meta?) need THREE",
     header_background="#808000",
     theme="dark",
     accent="#90ee90"

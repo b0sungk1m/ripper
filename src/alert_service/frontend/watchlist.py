@@ -80,9 +80,10 @@ def remove_from_watchlist(address):
     for entry in watchlist:
         if entry.get("address", "").lower() == address.lower():
             symbol = entry.get("symbol")
+            print(f"Removed token {symbol} with address {address} from watchlist.")
             break
     save_watchlist(new_watchlist)
-    print(f"Removed token {symbol} with address {address} from watchlist.")
+    
 
 def update_watchlist_notes(symbol, notes):
     """
