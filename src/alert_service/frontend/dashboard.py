@@ -9,20 +9,17 @@ import asyncio
 from bokeh.models.widgets.tables import NumberFormatter, BooleanFormatter
 from src.alert_service.frontend.websocket_client import set_update_callback, run_ws_client_in_background, websocket_shutdown
 from watchlist import load_watchlist, add_to_watchlist, remove_from_watchlist, update_watchlist_notes
-from watchlist_tab import get_watchlist_tab, get_watchlist_panel
+from watchlist_tab import get_watchlist_tab, get_watchlist_accordion, refresh_watchlist
 from shared_data import set_local_df
-# Enable Panel extensions with Tabulator support.
+from token_crawler import TokenCrawler
+from concurrent.futures import ThreadPoolExecutor
+
 pn.extension('tabulator', sizing_mode="stretch_width")
 
-# REST endpoint URL for full data fetch.
 REST_ALERTS_URL = os.environ.get("ALERTS_URL", "http://172.184.170.40:3000/alerts")
+token_crawler = TokenCrawler(headless=True)
 
-# --------------------- Data Functions ---------------------
 def load_data():
-    """
-    Fetch all alerts from the REST API endpoint and return a DataFrame.
-    Timestamps are parsed as UTC and then processed.
-    """
     try:
         response = requests.get(REST_ALERTS_URL)
         response.raise_for_status()
@@ -31,17 +28,13 @@ def load_data():
     except Exception as e:
         print("Error fetching alerts from REST endpoint:", e)
         df = pd.DataFrame()
-    
-    # Convert timestamp columns to UTC datetime.
     timestamp_cols = ['first_alert_time', 'last_alert_time', 'last_update_time']
     for col in timestamp_cols:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], utc=True, errors='coerce')
-    
     df = alter_data(df)
-    
-    # Reorder columns: desired ones first.
     col_order = [
+        "favorited",
         "alert_count",
         "symbol",
         "first_alert_time_ago",
@@ -52,7 +45,6 @@ def load_data():
         "curr_multiplier",
         "avg_purchase_size",
         "last_update_time_ago",
-        "favorited"
     ]
     df = reorder_and_rename_df(df, col_order)
     return df
@@ -66,30 +58,28 @@ def reorder_and_rename_df(df, first_columns, rename_map=None):
     return df
 
 def alter_data(df):
-    # Create a dexscreener link from the address.
+    # Add dexscreener link column
     if 'address' in df.columns:
         df['dexscreener_link'] = df['address'].apply(
             lambda addr: f"https://dexscreener.com/solana/{addr}"
         )
-    # Load your watchlist and mark tokens as favorited.
+    
+    # Initialize favorited column
     watchlist = load_watchlist()
     watchlist_addresses = {entry.get("address") for entry in watchlist}
     df['favorited'] = df['address'].apply(lambda addr: addr in watchlist_addresses)
-    
-    # Create "ago" columns for timestamps.
+
+    # Add time ago columns
     timestamp_cols = ['first_alert_time', 'last_alert_time', 'last_update_time']
     for col in timestamp_cols:
         if col in df.columns:
             df[f'{col}_ago'] = df[col].apply(format_timedelta)
-    
+
+    # Calculate avg_purchase_size
     df['avg_purchase_size'] = np.where(df['alert_count'] == 0, 0, df['purchase_size'] / df['alert_count'])
     return df
 
 def format_timedelta(dt_val):
-    """
-    Return a string representing the time difference between now (UTC) and dt_val in "HH:MM" format.
-    Assumes dt_val is a pandas datetime object in UTC.
-    """
     if pd.isnull(dt_val):
         return None
     now = pd.Timestamp.now(tz='UTC')
@@ -99,23 +89,16 @@ def format_timedelta(dt_val):
     minutes = total_minutes % 60
     return f"{hours:02d}:{minutes:02d}"
 
-# --------------------- Callbacks ---------------------
 def refresh_data(event):
     global local_df
     local_df = load_data()
     data_table.value = local_df.copy()
     set_local_df(local_df)
-    
     print("Data refreshed.")
 
 def filter_data(event=None):
     global local_df
     local_df = alter_data(local_df)
-    if symbol_filter.value.strip():
-        local_df = local_df[local_df['symbol'].str.contains(symbol_filter.value, case=False, na=False)]
-    if active_filter.value:
-        local_df = local_df[local_df['active_watchlist'] == True]
-    local_df = local_df.copy()
     data_table.value = local_df
     set_local_df(local_df)
 
@@ -133,15 +116,11 @@ def format_timestamp_from_seconds(seconds):
     return pd.to_datetime(seconds, unit='s', utc=True)
 
 def update_callback(payload):
-    """
-    Update callback for WebSocket delta updates.
-    """
     timestampcols = ['first_alert_time', 'last_alert_time', 'last_update_time']
     global local_df
     address = payload.get("address")
     if not address:
         return
-
     matches = local_df.index[local_df['address'] == address].tolist()
     if not matches:
         print(f"Address {address} not in local_df; performing full refresh.")
@@ -165,14 +144,10 @@ def shutdown_handler(signum, frame):
     print("Shutting down dashboard gracefully...")
     loop = asyncio.get_event_loop()
     loop.create_task(websocket_shutdown())
+    token_crawler.cleanup()
     sys.exit(0)
 
-# --------------------- Row Click & Toggle Callback ---------------------
 def row_click_callback(event):
-    """
-    Row click callback to update the embed chart when a row (other than favorite) is clicked.
-    """
-    # If the clicked column is "favorited", we skip here.
     if event.column == "favorited":
         return
     row_index = event.row
@@ -180,6 +155,14 @@ def row_click_callback(event):
     if row_data is None or "address" not in row_data:
         return
     address = row_data["address"]
+    if address.startswith("0x"):
+        return
+    token_pane.object = """
+    <div id="loading-screen" style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <h2>Loading...</h2>
+    </div>
+    """
+    print(f"Embed updating for address: {address}")
     embed_html = f"""
     <style>
       #dexscreener-embed {{
@@ -202,50 +185,38 @@ def row_click_callback(event):
       }}
     </style>
     <div id="dexscreener-embed">
-      <iframe src="https://dexscreener.com/solana/{address}?embed=1&loadChartSettings=1&trades=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=15"></iframe>
+      <iframe src="https://dexscreener.com/solana/{address}?embed=1&loadChartSettings=1&trades=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=5"></iframe>
     </div>
     """
     embed_pane.object = embed_html
-    print(f"Embed updated for address: {address}")
+    token_pane.object = token_crawler.get_pane_data(address)
 
 def toggle_favorite_callback(event):
-    """
-    Callback to toggle the "favorited" status when the user clicks on the "favorited" cell.
-    """
-    # Get the row index from the event.
     row_index = event.row
     address = local_df.iloc[row_index]["address"]
     current_value = local_df.iloc[row_index]["favorited"]
     new_value = not current_value
     local_df.at[row_index, "favorited"] = new_value
     if new_value:
-        # Add token to watchlist.
         entry = {"address": address, "symbol": local_df.iloc[row_index]["symbol"], "notes": ""}
         add_to_watchlist(entry)
     else:
         remove_from_watchlist(address)
     data_table.value = local_df.copy()
     set_local_df(local_df)
-    watchlist_panel_container.objects = get_watchlist_panel().objects
+    refresh_watchlist()
 
 def cell_click_callback(event):
-    """
-    Combined callback: If the clicked cell is in the "favorited" column, toggle it.
-    Otherwise, treat the click as a row selection to update the embed chart.
-    """
     if event.column == "favorited":
         toggle_favorite_callback(event)
     else:
         row_click_callback(event)
 
-# --------------------- Dashboard Layout ---------------------
-# Initial full data load.
 local_df = load_data()
 print(f"Setting local_df on dashboard startup")
 set_local_df(local_df)
 
 bokeh_formatters = {
-    'active_watchlist': {'type': 'tickCross'},
     'favorited': {'type': 'tickCross'},
     'symbol': {
          'type': 'link',
@@ -253,20 +224,25 @@ bokeh_formatters = {
          'labelField': 'symbol',
          'urlField': 'dexscreener_link'
     },
+    'ath_multiplier': NumberFormatter(format="0.0"),
+    'curr_multiplier': NumberFormatter(format="0.0"),
+    'avg_purchase_size': NumberFormatter(format="0.0")
 }
 
 data_table = pn.widgets.Tabulator(
     local_df, 
     pagination='local', 
-    page_size=20,
-    layout='fit_data',
+    page_size=50,
+    layout='fit_columns',
     text_align='center',
     show_index=False,
     disabled=True,
     hidden_columns=[
         'address', 'dexscreener_link', 'channel_HighConviction', 'channel_EarlyAlpha', 
         'channel_5xSMWallet', 'channel_SmartFollowers', 'channel_KimchiTest',
-        'isMoni', 'isNansen', 'first_alert_time', 'last_alert_time', 'last_update_time'
+        'isMoni', 'isNansen', 'first_alert_time', 'last_alert_time', 'last_update_time',
+        'token_age', 'twitter_sentiment', 'rug_bundle_check', 'macd_line', 'macd_short', 'macd_long',
+        'sm_buy_count', 'purchase_size', 'notes', 'website', 'twitter', 'summary', 'active_watchlist', 'volume_5min', 'volume_1hr'
     ],
     titles={
         "alert_count": "Count",
@@ -279,36 +255,35 @@ data_table = pn.widgets.Tabulator(
         "curr_multiplier": "CURR",
         "avg_purchase_size": "Buy Size",
         "last_update_time_ago": "Last Update",
-        "active_watchlist": "Active",
         "favorited": "Fav"
     },
-    formatters=bokeh_formatters
+    formatters=bokeh_formatters,
+    height=400,
 )
 
-# Create control widgets.
 symbol_filter = pn.widgets.TextInput(name="Symbol Filter", placeholder="Enter symbol substring")
 active_filter = pn.widgets.Checkbox(name="Active Only", value=True)
 refresh_button = pn.widgets.Button(name="Refresh Data", button_type="primary")
 refresh_button.on_click(refresh_data)
 
-# Embed pane for the chart.
 embed_pane = pn.pane.HTML("", sizing_mode="stretch_width", height=400)
+styles = {
+    'background-color': 'black', 'border': '2px solid green',
+    'border-radius': '5px', 'padding': '10px'
+}
+token_pane = pn.pane.HTML("", styles=styles, height=350, width=250)
 
-# Register the combined cell click callback.
 data_table.on_click(cell_click_callback)
 
-# Watch for filter changes.
 symbol_filter.param.watch(filter_data, 'value')
 active_filter.param.watch(filter_data, 'value')
 
 pn.state.add_periodic_callback(filter_data, period=10000)
 pn.state.add_periodic_callback(timestamp_callback, period=60000)
 
-# Wrap the table in a container (with a fixed height for scrolling).
-table_container = pn.Column(
+table_container = pn.Row(
     data_table,
-    sizing_mode="stretch_both",
-    height=600
+    token_pane
 )
 
 controls = pn.Row(
@@ -319,16 +294,14 @@ controls = pn.Row(
     sizing_mode="stretch_width"
 )
 
-# Build the Alerts tab layout.
 alerts_tab = pn.Column(
     controls,
-    embed_pane,      # Embed chart container at the top.
+    embed_pane,
     pn.Spacer(height=10),
     table_container,
     sizing_mode="stretch_both"
 )
 
-# Combine the Alerts tab with the Watchlist tab imported from watchlist_tab.py.
 dashboard_tabs = pn.Tabs(
     ("Alerts", alerts_tab),
     ("Watchlist", get_watchlist_tab()),
@@ -342,21 +315,23 @@ template = pn.template.FastGridTemplate(
     theme="dark",
     accent="#90ee90"
 )
-# Create a global watchlist container.
-watchlist_panel_container = pn.Column(*get_watchlist_panel().objects, sizing_mode="stretch_both")
 
-template.main[:5, :2] = watchlist_panel_container
-template.main[:5, 2:] = dashboard_tabs
+# Use the new accordion watchlist in the left panel.
+watchlist_panel_container = pn.panel(get_watchlist_accordion, sizing_mode="stretch_both")
+
+template.main[:7, :2] = watchlist_panel_container
+template.main[:7, 2:] = dashboard_tabs
 template.servable(title="Ripper")
 
-# --------------------- Shutdown and WebSocket Setup ---------------------
 def shutdown_handler(signum, frame):
     print("Shutting down dashboard gracefully...")
     loop = asyncio.get_event_loop()
     loop.create_task(websocket_shutdown())
     sys.exit(0)
 
+import signal
 signal.signal(signal.SIGINT, shutdown_handler)
 
+from src.alert_service.frontend.websocket_client import set_update_callback, run_ws_client_in_background
 set_update_callback(update_callback)
 run_ws_client_in_background()

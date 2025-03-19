@@ -1,3 +1,4 @@
+# watchlist.py
 import json
 import os
 
@@ -10,8 +11,8 @@ def load_watchlist():
     Loads the watchlist from a JSON file.
     
     Returns:
-        A list of watchlist entries. Each entry can be a dict containing
-        the token's address, symbol, notes, etc.
+        A list of watchlist entries. Each entry is a dict containing
+        the token's address, symbol, notes, tags, etc.
     If the file does not exist, returns an empty list.
     """
     if not os.path.exists(WATCHLIST_PATH):
@@ -24,6 +25,10 @@ def load_watchlist():
             data = json.load(f)
             # Ensure the watchlist is a list.
             if isinstance(data, list):
+                # Ensure each entry has a "tags" field; default to ["untagged"] if missing.
+                for entry in data:
+                    if "tags" not in entry:
+                        entry["tags"] = ["untagged"]
                 return data
             else:
                 return []
@@ -61,27 +66,34 @@ def add_to_watchlist(entry):
     if any(item.get("address") == entry.get("address") for item in watchlist):
         print(f"Token {entry.get('address')} is already in the watchlist.")
         return
+    # Ensure a new entry has a "tags" field.
+    if "tags" not in entry:
+        entry["tags"] = ["untagged"]
     watchlist.append(entry)
     save_watchlist(watchlist)
     print(f"Added token {entry.get('address')} to watchlist.")
 
 def remove_from_watchlist(address):
     """
-    Removes an entry from the watchlist by symbol.
+    Removes an entry from the watchlist by address.
     
     Parameters:
-      address (str): The token's symbol to remove.
+      address (str): The token's address to remove.
     """
     watchlist = load_watchlist()
     new_watchlist = [entry for entry in watchlist if entry.get("address", "").lower() != address.lower()]
 
     # find symbol of the address
     symbol = None
+    removed = False
     for entry in watchlist:
         if entry.get("address", "").lower() == address.lower():
             symbol = entry.get("symbol")
             print(f"Removed token {symbol} with address {address} from watchlist.")
+            removed = True
             break
+    if not removed:
+        print(f"Token with address {address} not found in watchlist.")
     save_watchlist(new_watchlist)
     
 
@@ -90,7 +102,7 @@ def update_watchlist_notes(symbol, notes):
     Updates the notes for a token in the watchlist.
     
     Parameters:
-      address (str): The token's symbol.
+      symbol (str): The token's symbol.
       notes (str): The updated notes.
     """
     watchlist = load_watchlist()
