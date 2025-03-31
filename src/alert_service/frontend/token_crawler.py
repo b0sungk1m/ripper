@@ -77,28 +77,28 @@ class TokenCrawler:
     def get_pane_data(self, address):
             # bundle_percentage = future_bundle.result()
         rug_dict = self.get_rugchecker_info(address)
-        volume_dict = self.get_volume(address, timeframes=["5M", "1H"])
-        volume_5m = volume_dict["5M"]
-        volume_1h = volume_dict["1H"]
+        # volume_dict = self.get_volume(address, timeframes=["5M", "1H"])
+        # volume_5m = volume_dict["5M"]
+        # volume_1h = volume_dict["1H"]
         rug_score = rug_dict['safety_value']
         alerts = rug_dict['alerts']
         # Determine color for 5-minute volume
         # Using thresholds: <10k = red, 10k-49,999 = yellow, 50k+ = green.
-        if volume_5m['float'] < 10:
-            vol5_color = "red"
-        elif volume_5m['float'] < 50:
-            vol5_color = "yellow"
-        else:
-            vol5_color = "green"
+        # if volume_5m['float'] < 10:
+        #     vol5_color = "red"
+        # elif volume_5m['float'] < 50:
+        #     vol5_color = "yellow"
+        # else:
+        #     vol5_color = "green"
 
-        # For 1-hour volume, extrapolate thresholds by multiplying by 12.
-        # Thresholds become: <120k = red, 120k-599,999 = yellow, 600k+ = green.
-        if volume_1h['float'] < 120:
-            vol1h_color = "red"
-        elif volume_1h['float'] < 600:
-            vol1h_color = "yellow"
-        else:
-            vol1h_color = "green"
+        # # For 1-hour volume, extrapolate thresholds by multiplying by 12.
+        # # Thresholds become: <120k = red, 120k-599,999 = yellow, 600k+ = green.
+        # if volume_1h['float'] < 120:
+        #     vol1h_color = "red"
+        # elif volume_1h['float'] < 600:
+        #     vol1h_color = "yellow"
+        # else:
+        #     vol1h_color = "green"
 
         # Determine color for rug safety score.
         # We use an approximate split: 0-33 (red), 34-66 (orange), 67-100 (green)
@@ -122,15 +122,6 @@ class TokenCrawler:
         <p style="margin: 5px 0;">
             <strong>Rug Safety Score:</strong>
             <span style="color: {safety_color}; font-weight: bold;">{rug_score}</span>
-        </p>
-        <p style="margin: 5px 0;">
-            <strong>Volume (5 Min):</strong>
-            <span style="color: {vol5_color}; font-weight: bold;">{volume_5m['string']}</span>
-        </p>
-        <p style="margin: 5px 0;">
-            <strong>Volume (1 Hr):</strong>
-            <span style="color: {vol1h_color}; font-weight: bold;">{volume_1h['string']}</span>
-        </p>
         <p style="margin: 5px 0;"><strong>Alerts:</strong></p>
         <ul style="padding-left: 20px; margin-top: 0; list-style-type: disc;">
             {alerts_html}

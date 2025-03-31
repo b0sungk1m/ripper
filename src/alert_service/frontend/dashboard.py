@@ -14,7 +14,19 @@ from shared_data import set_local_df
 from token_crawler import TokenCrawler
 from concurrent.futures import ThreadPoolExecutor
 
-pn.extension('tabulator', sizing_mode="stretch_width")
+NO_HEADER_RAW_CSS = """
+nav#header {
+    display: none;
+}
+"""
+
+MAXIMIZE_FIRST_PANEL = """
+.bk-root {
+    height: calc(100vh - 50px) !important;
+}
+"""
+
+pn.extension('tabulator', sizing_mode="stretch_height", raw_css=[NO_HEADER_RAW_CSS, MAXIMIZE_FIRST_PANEL])
 
 REST_ALERTS_URL = os.environ.get("ALERTS_URL", "http://172.184.170.40:3000/alerts")
 token_crawler = TokenCrawler(headless=True)
@@ -24,6 +36,7 @@ def load_data():
         response = requests.get(REST_ALERTS_URL)
         response.raise_for_status()
         data = response.json()
+        print(f"Data loaded with {len(data)} alerts")
         df = pd.DataFrame(data)
     except Exception as e:
         print("Error fetching alerts from REST endpoint:", e)
@@ -45,8 +58,10 @@ def load_data():
         "curr_multiplier",
         "avg_purchase_size",
         "last_update_time_ago",
+        "chain"
     ]
     df = reorder_and_rename_df(df, col_order)
+    print(f"Data loaded with {len(df)} alerts")
     return df
 
 def reorder_and_rename_df(df, first_columns, rename_map=None):
@@ -60,8 +75,9 @@ def reorder_and_rename_df(df, first_columns, rename_map=None):
 def alter_data(df):
     # Add dexscreener link column
     if 'address' in df.columns:
-        df['dexscreener_link'] = df['address'].apply(
-            lambda addr: f"https://dexscreener.com/solana/{addr}"
+        df['dexscreener_link'] = df.apply(
+            lambda row: f"https://dexscreener.com/{'avalanche' if row['address'].startswith('0x') else row['chain']}/{row['address']}",
+            axis=1
         )
     
     # Initialize favorited column
@@ -155,8 +171,13 @@ def row_click_callback(event):
     if row_data is None or "address" not in row_data:
         return
     address = row_data["address"]
-    if address.startswith("0x"):
-        return
+    chain = row_data["chain"]
+    if chain is None:
+        if address.startswith("0x"):
+            chain = "avalanche"
+        else:
+            chain = "solana"
+
     token_pane.object = """
     <div id="loading-screen" style="display: flex; justify-content: center; align-items: center; height: 100%;">
         <h2>Loading...</h2>
@@ -168,11 +189,11 @@ def row_click_callback(event):
       #dexscreener-embed {{
         position: relative;
         width: 100%;
-        height: 450px;
+        height: 550px;
       }}
       @media (max-width: 1400px) {{
         #dexscreener-embed {{
-            height: 500px;
+            height: 550px;
         }}
       }}
       #dexscreener-embed iframe {{
@@ -185,10 +206,12 @@ def row_click_callback(event):
       }}
     </style>
     <div id="dexscreener-embed">
-      <iframe src="https://dexscreener.com/solana/{address}?embed=1&loadChartSettings=1&trades=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=5"></iframe>
+      <iframe src="https://dexscreener.com/{chain}/{address}?embed=1&loadChartSettings=1&trades=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=5"></iframe>
     </div>
     """
     embed_pane.object = embed_html
+    if address.startswith("0x"):
+        return
     token_pane.object = token_crawler.get_pane_data(address)
 
 def toggle_favorite_callback(event):
@@ -261,12 +284,11 @@ data_table = pn.widgets.Tabulator(
     height=400,
 )
 
-symbol_filter = pn.widgets.TextInput(name="Symbol Filter", placeholder="Enter symbol substring")
-active_filter = pn.widgets.Checkbox(name="Active Only", value=True)
-refresh_button = pn.widgets.Button(name="Refresh Data", button_type="primary")
+symbol_filter = pn.widgets.TextInput(placeholder="Enter symbol", width=225)
+refresh_button = pn.widgets.Button(name="↻", button_type="primary", width=35, height=35)
 refresh_button.on_click(refresh_data)
 
-embed_pane = pn.pane.HTML("", sizing_mode="stretch_width", height=400)
+embed_pane = pn.pane.HTML("", sizing_mode="stretch_both", height=410)
 styles = {
     'background-color': 'black', 'border': '2px solid green',
     'border-radius': '5px', 'padding': '10px'
@@ -276,7 +298,6 @@ token_pane = pn.pane.HTML("", styles=styles, height=350, width=250)
 data_table.on_click(cell_click_callback)
 
 symbol_filter.param.watch(filter_data, 'value')
-active_filter.param.watch(filter_data, 'value')
 
 pn.state.add_periodic_callback(filter_data, period=10000)
 pn.state.add_periodic_callback(timestamp_callback, period=60000)
@@ -288,8 +309,7 @@ table_container = pn.Row(
 
 controls = pn.Row(
     symbol_filter,
-    active_filter,
-    pn.layout.HSpacer(),
+    pn.layout.HSpacer(width=550),
     refresh_button,
     sizing_mode="stretch_width"
 )
@@ -310,8 +330,6 @@ dashboard_tabs = pn.Tabs(
 )
 
 template = pn.template.FastGridTemplate(
-    title="Ripper (volume?, MACD?, Support?, AI/Gov/News/On-meta?) need THREE",
-    header_background="#808000",
     theme="dark",
     accent="#90ee90"
 )

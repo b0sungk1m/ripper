@@ -1,0 +1,378 @@
+[
+    {
+        "address": "FtUEW73K6vEYHfbkfpdBZfWpxgQar2HipGdbutEhpump",
+        "symbol": "titcoin",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "GEuuznWpn6iuQAJxLKQDVGXPtrqXHNWTk3gZqqvJpump",
+        "symbol": "ACE",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "2TUQ21D87yrbZM1F3RB93sbkiGXeTTfkb8wWqG2ipump",
+        "symbol": "Pavise",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "BgV8qdfkjCDLPuDwhDaJGpgJj5XeYJeKwhG7E2bkpump",
+        "symbol": "PAPERCLIPS",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "E7NgL19JbN8BhUDgWjkH8MtnbhJoaGaWJqosxZZepump",
+        "symbol": "PAYAI",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "9iQFnxrDDMFrhLx2pYJCDeqN3wFuaBimQkUnZQHNpump",
+        "symbol": "COOL",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "VjMa3mzfBgCyKRTQHg8pSuZRKCvKF8zMqVXQMU3pump",
+        "symbol": "BST",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "gqGV66s7T5ourRHoDzQEuYNEcLe93mFAYiGmg91pump",
+        "symbol": "GREG",
+        "notes": "mar 25 910: looking to buy",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "BbhJsMWGwvydfiagML9AXr4LQc6sssGfignzAMTCpump",
+        "symbol": "fairy",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "9Uq41ybjpdtDbURsR7gFCRLv2jXcBb1zGwxN4Abjpump",
+        "symbol": "Simpli",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "C3DwDjT17gDvvCYC2nsdGHxDHVmQRdhKfpAdqQ29pump",
+        "symbol": "RFC",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "4ftyK4di1r7dd5ocCG64nJboEgKdi1ZjquZCFCWapump",
+        "symbol": "HODL",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "6Hky2orCQGvxyMMCnEPi8vgG1fiVCRRVuq79Dnorpump",
+        "symbol": "CHIRP",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "CdtftNSz6fy9BgXmzLgy9FtQDnqZJyhqSBRPnZBspump",
+        "symbol": "dnbdns",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "EQf2LYaw4zV3hb2UK5kCUSgFrLRJqUAaeVA9rMypump",
+        "symbol": "IMHPC",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "4rwPNRSFgcS7EGphFdX7VwXuhjZGxph7gYyb7Zp2pump",
+        "symbol": "AuraFarm",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "5Tfwxm9pA3oiAUUyQ7HkAyomCo6i6Jr4h4c8U91Xpump",
+        "symbol": "RobOS",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "DMzVMP3eBvmXS45HWsn3VSKLm8CxP5ge8erpJZ8Cpump",
+        "symbol": "MROBOTICS",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "2q3uaAEmC3CTrCUYVKFFJAYeu7qe3xgdZSvqUqDKpump",
+        "symbol": "SPEC",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "7Yg9Lzgsvjy49mf3LdGyfmn2tT2rGBDUc77267SUpump",
+        "symbol": "300BAUD",
+        "notes": "connection to some paypal founder or sum?",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "4TBi66vi32S7J8X1A6eWfaLHYmUXu7CStcEmsJQdpump",
+        "symbol": "Ghibli",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "9oKRUyKhkUhnteBDeUY7VcsXG6wv79ghKDrAVoQppump",
+        "symbol": "SKINNY",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "HsNx7RirehVMy54xnFtcgCBPDMrwNnJKykageqdWpump",
+        "symbol": "daige",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "HiQQyW8EuYn7s4VkZxPJftZpDAU1wSHdcV5KA7Hapump",
+        "symbol": "Movie",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "BjCmA9ZYwJ1BwusMGaSxe4pgaa9gfXTtdyX27NYEpump",
+        "symbol": "BONECOIN",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "CtgBaREvAmV8XkrrFbhbcudcxRCWoXoQY4edF7nspump",
+        "symbol": "SGN",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "AbSdby7XnCezg3EzMYwPf4KBYM7KnnCZgmU2PrfcUb1D",
+        "symbol": "TILT",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "28YzheH23A58kUGPpEvwyE4kh5iU4FQAHnsUxYY4SNtQ",
+        "symbol": "Idiot",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "Fr5N8PXs6Gq3gyiBoynLkEr2vxiSBPzRk8PmrTw5pump",
+        "symbol": "repo",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "3m92VjJrUdtc7zp2NUwJdgJYT7nzKC2FmSSBxJL5pump",
+        "symbol": "MEMECOIN",
+        "notes": "good",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "2k1qthxcenETcs22nwneH38YRPFhNHu7GxBQ3LMKpump",
+        "symbol": "YABAI",
+        "notes": "good",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "2t1hpzSzQNqogmfhSitrnQZnwGMYiRXg9iJTEG3bpump",
+        "symbol": "Spioniro",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "BQQzEvYT4knThhkSPBvSKBLg1LEczisWLhx5ydJipump",
+        "symbol": "Buckazoids",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "315Kh4gjo8hdEVvCDD43pJKr2KmEVkwezEehtg3rpump",
+        "symbol": "hieroglyph",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "FfwGKvYymp9zjedPfaNtndwyv8spF9BVveYhXo2fpump",
+        "symbol": "MUPPET",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "8gxReuKB7fg5P7GjB8UBE2saWBccSEM2DATbEcnUpump",
+        "symbol": "TRENCHCARD",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "HEz7eqe3ZdbQa8QfLDo1JWpWzJK3bFJHy6D1PMWapump",
+        "symbol": "STINKDEX",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "6PaVHw2HR6ybTvPMXkLcGUF2A6Hiy857k8PQXkTnpump",
+        "symbol": "pleb",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "DqHJFnU2KqC6B2qskERJjkPqhFS4FY2xaxgEfjUVp7ng",
+        "symbol": "SUPERJUDGE",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "6mmEpBUYdfNdWN4nByn1uuN7pry5SZKsaBp3Ea23pump",
+        "symbol": "Grok",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "AzfRsjf8GzzLNm71QCdvJ79t6AvraLQwPV4jbVPZpump",
+        "symbol": "BLORB",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "5PccG42XUYi8TvKpuSTmsmDdSym9t45hwumP7CUJPuMP",
+        "symbol": "GRFE",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "DitHyRMQiSDhn5cnKMJV2CDDt6sVct96YrECiM49pump",
+        "symbol": "House",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "Cog6bgZjJaJ8KiCQCrYr4qv2R73oeb8opLuSgNigpump",
+        "symbol": "BRO",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "HZK2wcvaQhxpbKKx7RuAv4jb2YMeZjF4kB9BhcE3pump",
+        "symbol": "vaginacoin",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "BQX1cjcRHXmrqNtoFWwmE5bZj7RPneTmqXB979b2pump",
+        "symbol": "Italianrot",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "5j3H16JJNstME8nriQNytoaS4oGgUA42Sha3sTpt897S",
+        "symbol": "DF",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    }
+]
