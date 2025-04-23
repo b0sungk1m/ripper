@@ -1,7 +1,7 @@
 # Makefile at project root (e.g., ripper/)
 
 # Define variables
-PYTHON_EXEC = /Users/bosungkim/.pyenv/versions/3.11.6/bin/python
+PYTHON_EXEC = python
 SCRIPT_PATH = /Users/bosungkim/bosungkim/src/github/ripper/src/main.py
 
 # If needed for imports, set PYTHONPATH to current directory

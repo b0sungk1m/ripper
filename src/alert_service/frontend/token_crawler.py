@@ -167,7 +167,6 @@ class TokenCrawler:
         except Exception as e:
             print("Error in get_rugchecker_info:", e)
             return {"safety score": "N/A", "alerts": [], "safety_value": 0}
-        print(safety_score)
         try:
             safety_score_value = float(safety_score.split(":")[1].split("/")[0].strip())
         except Exception as e:

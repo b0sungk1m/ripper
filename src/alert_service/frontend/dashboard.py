@@ -698,4 +698,4 @@ set_update_callback(update_callback)
 run_ws_client_in_background()
 
 # --- Serve the App ---
-template.servable() # No need for explicit title here if set in Template constructor
+template.servable()

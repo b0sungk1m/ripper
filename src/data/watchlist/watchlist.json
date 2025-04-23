@@ -16,14 +16,6 @@
         ]
     },
     {
-        "address": "2TUQ21D87yrbZM1F3RB93sbkiGXeTTfkb8wWqG2ipump",
-        "symbol": "Pavise",
-        "notes": "",
-        "tags": [
-            "slow"
-        ]
-    },
-    {
         "address": "BgV8qdfkjCDLPuDwhDaJGpgJj5XeYJeKwhG7E2bkpump",
         "symbol": "PAPERCLIPS",
         "notes": "",
@@ -56,24 +48,8 @@
         ]
     },
     {
-        "address": "gqGV66s7T5ourRHoDzQEuYNEcLe93mFAYiGmg91pump",
-        "symbol": "GREG",
-        "notes": "mar 25 910: looking to buy",
-        "tags": [
-            "current"
-        ]
-    },
-    {
         "address": "BbhJsMWGwvydfiagML9AXr4LQc6sssGfignzAMTCpump",
         "symbol": "fairy",
-        "notes": "",
-        "tags": [
-            "slow"
-        ]
-    },
-    {
-        "address": "9Uq41ybjpdtDbURsR7gFCRLv2jXcBb1zGwxN4Abjpump",
-        "symbol": "Simpli",
         "notes": "",
         "tags": [
             "slow"
@@ -84,45 +60,13 @@
         "symbol": "RFC",
         "notes": "",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "4ftyK4di1r7dd5ocCG64nJboEgKdi1ZjquZCFCWapump",
-        "symbol": "HODL",
-        "notes": "",
-        "tags": [
             "slow"
-        ]
-    },
-    {
-        "address": "6Hky2orCQGvxyMMCnEPi8vgG1fiVCRRVuq79Dnorpump",
-        "symbol": "CHIRP",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "CdtftNSz6fy9BgXmzLgy9FtQDnqZJyhqSBRPnZBspump",
-        "symbol": "dnbdns",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "EQf2LYaw4zV3hb2UK5kCUSgFrLRJqUAaeVA9rMypump",
-        "symbol": "IMHPC",
-        "notes": "",
-        "tags": [
-            "untagged"
         ]
     },
     {
         "address": "4rwPNRSFgcS7EGphFdX7VwXuhjZGxph7gYyb7Zp2pump",
         "symbol": "AuraFarm",
-        "notes": "",
+        "notes": "MACD looks good but no volume. should come down to 500k",
         "tags": [
             "untagged"
         ]
@@ -144,14 +88,6 @@
         ]
     },
     {
-        "address": "2q3uaAEmC3CTrCUYVKFFJAYeu7qe3xgdZSvqUqDKpump",
-        "symbol": "SPEC",
-        "notes": "",
-        "tags": [
-            "slow"
-        ]
-    },
-    {
         "address": "7Yg9Lzgsvjy49mf3LdGyfmn2tT2rGBDUc77267SUpump",
         "symbol": "300BAUD",
         "notes": "connection to some paypal founder or sum?",
@@ -164,7 +100,7 @@
         "symbol": "Ghibli",
         "notes": "",
         "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -184,35 +120,11 @@
         ]
     },
     {
-        "address": "HiQQyW8EuYn7s4VkZxPJftZpDAU1wSHdcV5KA7Hapump",
-        "symbol": "Movie",
-        "notes": "",
-        "tags": [
-            "slow"
-        ]
-    },
-    {
         "address": "BjCmA9ZYwJ1BwusMGaSxe4pgaa9gfXTtdyX27NYEpump",
         "symbol": "BONECOIN",
         "notes": "",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "CtgBaREvAmV8XkrrFbhbcudcxRCWoXoQY4edF7nspump",
-        "symbol": "SGN",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "AbSdby7XnCezg3EzMYwPf4KBYM7KnnCZgmU2PrfcUb1D",
-        "symbol": "TILT",
-        "notes": "",
-        "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -220,15 +132,7 @@
         "symbol": "Idiot",
         "notes": "",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "Fr5N8PXs6Gq3gyiBoynLkEr2vxiSBPzRk8PmrTw5pump",
-        "symbol": "repo",
-        "notes": "",
-        "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -236,7 +140,7 @@
         "symbol": "MEMECOIN",
         "notes": "good",
         "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -244,23 +148,7 @@
         "symbol": "YABAI",
         "notes": "good",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "2t1hpzSzQNqogmfhSitrnQZnwGMYiRXg9iJTEG3bpump",
-        "symbol": "Spioniro",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "BQQzEvYT4knThhkSPBvSKBLg1LEczisWLhx5ydJipump",
-        "symbol": "Buckazoids",
-        "notes": "",
-        "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -268,31 +156,7 @@
         "symbol": "hieroglyph",
         "notes": "",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "FfwGKvYymp9zjedPfaNtndwyv8spF9BVveYhXo2fpump",
-        "symbol": "MUPPET",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "8gxReuKB7fg5P7GjB8UBE2saWBccSEM2DATbEcnUpump",
-        "symbol": "TRENCHCARD",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "HEz7eqe3ZdbQa8QfLDo1JWpWzJK3bFJHy6D1PMWapump",
-        "symbol": "STINKDEX",
-        "notes": "",
-        "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -300,39 +164,7 @@
         "symbol": "pleb",
         "notes": "",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "DqHJFnU2KqC6B2qskERJjkPqhFS4FY2xaxgEfjUVp7ng",
-        "symbol": "SUPERJUDGE",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "6mmEpBUYdfNdWN4nByn1uuN7pry5SZKsaBp3Ea23pump",
-        "symbol": "Grok",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "AzfRsjf8GzzLNm71QCdvJ79t6AvraLQwPV4jbVPZpump",
-        "symbol": "BLORB",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "5PccG42XUYi8TvKpuSTmsmDdSym9t45hwumP7CUJPuMP",
-        "symbol": "GRFE",
-        "notes": "",
-        "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -340,23 +172,7 @@
         "symbol": "House",
         "notes": "",
         "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "Cog6bgZjJaJ8KiCQCrYr4qv2R73oeb8opLuSgNigpump",
-        "symbol": "BRO",
-        "notes": "",
-        "tags": [
-            "untagged"
-        ]
-    },
-    {
-        "address": "HZK2wcvaQhxpbKKx7RuAv4jb2YMeZjF4kB9BhcE3pump",
-        "symbol": "vaginacoin",
-        "notes": "",
-        "tags": [
-            "untagged"
+            "slow"
         ]
     },
     {
@@ -364,15 +180,454 @@
         "symbol": "Italianrot",
         "notes": "",
         "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "2xh1LVN7yD1dBGfrGcKz4BCTvcgrEyjouoHp9Nq28FZB",
+        "symbol": "MCP",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "7swLujtSwxcNxybT167ii9HXCfy5LZFxNwUEvsZgpump",
+        "symbol": "FISH2",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "4nKvQ6gMrTKH17kr9kmHmvRzA5G7Jd7xwxyCyr9Xpump",
+        "symbol": "YARNCAT",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "6o4bKyUjWEbN6nUmGWUzjDSvbNBxmaqwVHTP5tJxpump",
+        "symbol": "LOLZZZ",
+        "notes": "",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "FasH397CeZLNYWkd3wWK9vrmjd1z93n3b59DssRXpump",
+        "symbol": "BUTTCOIN",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "8w6yhgsGKxfMZRPLNBBjgJQKRRGaXvgDAdhgQacEpump",
+        "symbol": "Stablecoin",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "4Fy8Hsqg9SsSKTeYWT7QSS1MCyahEsuK64PMxsutpump",
+        "symbol": "thicc",
+        "notes": "",
+        "tags": []
+    },
+    {
+        "address": "JCECJaMRtumMxr7AVEBmyGpPXxpMHEmwFdXeL5w2pump",
+        "symbol": "JASMA",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "mNKXd51Ropo9mzEQJtSzebQ1CeVFDVPokCsToSL7GFM",
+        "symbol": "SNIFF",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "G4EtsEf78CxfdL2RvUvJ7RaUN2sNxCBFRV7mhd2Gpump",
+        "symbol": "LEGO",
+        "notes": "10k volume and macd low for two peaks. will come down to support.",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "2ChusVZzi6pUqRyHnNWq27EczqUTacFYjSPg5RiDpump",
+        "symbol": "misc",
+        "notes": "macd turn up but not at support. soulw buy at 750k. 14k volume tho",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "B91Nyc6SnWqr5DRR34eEMKuZrWh4zBhW9VhX4UNLpump",
+        "symbol": "jockey",
+        "notes": "2m support",
+        "tags": [
             "untagged"
         ]
     },
     {
-        "address": "5j3H16JJNstME8nriQNytoaS4oGgUA42Sha3sTpt897S",
-        "symbol": "DF",
+        "address": "7LSsEoJGhLeZzGvDofTdNg7M3JttxQqGWNLo6vWMpump",
+        "symbol": "Figure",
+        "notes": "",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "HEz7eqe3ZdbQa8QfLDo1JWpWzJK3bFJHy6D1PMWapump",
+        "symbol": "STINKDEX",
+        "notes": "",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "J9tBGFgTnpkVWPEwtHMwLqxUNFMXQakZXLQUP5y5pump",
+        "symbol": "Land",
+        "notes": "at support. only 5k voljme but it looks good-- has been holding 80-90k for a long time and macd is tunring up 1hr",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "2wzVMXhLypmP92mXNCq4fuFcd9TCC972AbMfuiH3pump",
+        "symbol": "AISLOP",
         "notes": "",
         "tags": [
             "untagged"
+        ]
+    },
+    {
+        "address": "7CHTaFLQEHndoPkafA31twwSjZnZGtKNgKwPxqwtpump",
+        "symbol": "humanize",
+        "notes": "accumulating. 20k voljme. at support 170k. could go up or down idk.",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "5Ub7fozzF1jAqTstubiQix5ERAPf9JLyoueBr4Ktpump",
+        "symbol": "DFDV",
+        "notes": "waiting to bottom again. no volume so it wont run",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "6bQr6rJ3WccpTYaaTPtUZUPGwPFyeHa7mavwo2hdpump",
+        "symbol": "XIJINGPOOH",
+        "notes": "50k bottom?",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "H2kyHPka6nFrkrSKXGuyxDTai1sJZyWZ5Uzbq2bJpump",
+        "symbol": "FFM",
+        "notes": "could dip more. 13k volume so mayb just ides.",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "4A3qjPKQYJ4eYx2V5AhQfkkBLMc4LuvdDJhDx7iBpump",
+        "symbol": "PREASE",
+        "notes": "",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "G8r2Yf7dVrcpyfCgmowgoNY3v7KuxcrGR5EENRkepump",
+        "symbol": "buzhidao",
+        "notes": "acucmulating. would buy at 1ook. macd turning up",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "BP8RUdhLKBL2vgVXc3n7oTSZKWaQVbD8S6QcPaMVBAPo",
+        "symbol": "FAFO",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "6PPswxTsFHuEZPTuarS2xDeCGqefG3wTs2pK8upnpump",
+        "symbol": "LeBarbie",
+        "notes": "macd turn up in accum zone. ",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "B7v9n5UxuYwutMZVH5gpnnDubGFmdm4gnmheZZUhpump",
+        "symbol": "BabyDog",
+        "notes": "40 bundle. no volume. will die. at support tho.",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "DH4MqNmSR7rSY1zLiEaszx8cyDPCNgTWWTm4w8TMpump",
+        "symbol": "AGAWA",
+        "notes": "macd turning up. could break support here but i like it. maybe i should wait till it hits 800k for entry.",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "BsJEbDeA5m4koHrsU1EQc18TnCs3ZZSKhaaCFTpwpump",
+        "symbol": "SPERM",
+        "notes": "accum at 130k should run",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "8ds9uCP2Y21ctWtsAkYrb8tKN7Dqqqrsv8imhPV6pump",
+        "symbol": "NUBBIN",
+        "notes": "",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "HxgX35UHdWgYUVYGn1F1SLjgsqBjF4zCamAQjTMUpump",
+        "symbol": "Xeno",
+        "notes": "accum at 400k should run.",
+        "tags": [
+            "hawk",
+            "current"
+        ]
+    },
+    {
+        "address": "PeGV8nmE7BP23Ev5e3LZJ3muvRvVYAaYozQfHDSpump",
+        "symbol": "Upril",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "EmBBhcqgm2acaXv9dXQFyDZDkhL4YMoWnGdHaMQJpump",
+        "symbol": "BWT",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "EiNYjLLDxawk9gr3p1iLRYeb3rUgFqWvaBAPe7vapump",
+        "symbol": "ADAM",
+        "notes": "",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "8kKdLb7tWxuZHCyt9mx83Ei8pV9YTWJULMLcFWuqpump",
+        "symbol": "TRUMPCOIN",
+        "notes": "",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "FP9axFNBC1V68BLTDqtWAP6vVVqP9daNr57wmx4Tpump",
+        "symbol": "GOONER",
+        "notes": "4 percent holder can tank",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "5CxtvaR1SskwLxfzHGurx8Enu8bgSTPyWF3YP4sWpump",
+        "symbol": "42069COIN",
+        "notes": "macd turning up and in the same zone for a while. will hit 2m then bounce. looks strong.",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "9oFPEXxq3ocSpv59QcJxomNM1GiWYCBNQrdxidCbpump",
+        "symbol": "cs2skins",
+        "notes": "volume slowing down; macd down",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "82fab62odofXT2stezoU8CuUF1kQAurT8M6g7Kxxpump",
+        "symbol": "Bonds",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "2uWZLXzbbtmPbJVZjMpm17CPnfL73RFrfvHntsKYpump",
+        "symbol": "RIZE",
+        "notes": "",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "4FkNq8RcCYg4ZGDWh14scJ7ej3m5vMjYTcWoJVkupump",
+        "symbol": "LUMO",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "8AS9yeGsAwvTs9gCDKMmB2MgX8NiSvv4uppH61yqpump",
+        "symbol": "$horny",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "63fYtXQW6TKcG6zbHN2BxHjAoYkjDPr8JmPne4zqpump",
+        "symbol": "ideal",
+        "notes": "",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "AeGLuq8Q3HzdAbCB9FSben4U4X6n2bgAv7MNLGSBSL4z",
+        "symbol": "LOOP",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "C7B6oMLgUtnTe8LYNG1Z7ujdt8YArKaUUh63Aebpump",
+        "symbol": "FORBID",
+        "notes": "good meme should keep sending. at 500k.",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "UCYaUNhgB2344N8Qpg4t712V9RHahcpTCejwXKspump",
+        "symbol": "mxyz",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "3QgKXoMjs4M9S94N6Rk5AFGfRNJ2VxetjXGpC4iqpump",
+        "symbol": "HEDGE",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "4ttJ75zUFqMvryDv9obWzRjZZCSdB5smwWUMFJXvpump",
+        "symbol": "Birkin",
+        "notes": "",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "68hqz1dn5MB1xX7nTowmfnKa8wzUUUUnmMzsjL6Lpump",
+        "symbol": "8008coin",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "EDsM6Jf48HwXBHcZLdCAQieudJ1gxqq3xhSNh31Hpump",
+        "symbol": "LLC",
+        "notes": "macd turning up. at support. will buy at 100k dip",
+        "tags": [
+            "hawk"
+        ]
+    },
+    {
+        "address": "G2AbNxcyXV6QiXptMm6MuQPBDJYp9AVQHTdWAV1Wpump",
+        "symbol": "LORE",
+        "notes": "",
+        "tags": [
+            "slow"
+        ]
+    },
+    {
+        "address": "AVmQwiVBEXvZet5DZJu5oRbERg25pD5zuAW1u9qGpump",
+        "symbol": "crayon",
+        "notes": "macd turn up on support ish. looks good.",
+        "tags": [
+            "current"
+        ]
+    },
+    {
+        "address": "76RZeKinKT3jRx7aQZsV8TuDfB31f9HAQLwqp4Vcpump",
+        "symbol": "Wo",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "HK6hRLHB9orDKK5MffpCKxdLLRqiaqqUxN2vEoQQpump",
+        "symbol": "yee",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "AxSMXaM3KeQ3a6HDfGizJaRnzGqrDHJg3uyZbwZUpump",
+        "symbol": "SARAH",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "22rFqd7YBovBXCrK2ksZLxfxVNFiFFmGoL32UuZRpump",
+        "symbol": "REFUND",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "E4qzn7o7P5SR13Sd1X1JKiw6yBGXVPat6JNUuX7ypump",
+        "symbol": "ethard",
+        "notes": "",
+        "tags": [
+            "untagged"
+        ]
+    },
+    {
+        "address": "83FFPBAQHkLfr8tmHE5EHDwgbke68n34PKXAxXwjnqSp",
+        "symbol": "COMPA",
+        "notes": "",
+        "tags": [
+            "current"
         ]
     }
 ]
