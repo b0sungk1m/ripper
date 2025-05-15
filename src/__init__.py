@@ -1,3 +1,0 @@
-"""
-Ripper's Trading System
-""" 
